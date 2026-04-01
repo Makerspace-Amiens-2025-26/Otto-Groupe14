@@ -49,11 +49,6 @@ void startupMusic() { // Fonction pour jouer la musique de démarrage
 
 // Fonction qui teste les moteurs de 0 à 180°
 void testServos() {
-  legLeft.attach(pinLegLeft);
-  legRight.attach(pinLegRight);
-  footLeft.attach(pinFootLeft);
-  footRight.attach(pinFootRight);
-  
   Serial.println("Position : 0°");
   legLeft.write(0);
   legRight.write(0);
@@ -112,5 +107,5 @@ void loop() {
   }
 
 
-  delay(1000);  // Attendre 1 seconde avant d'envoyer à nouveau
+  delay(1000);
 }
