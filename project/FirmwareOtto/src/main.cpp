@@ -95,6 +95,70 @@ void testServos() {
   delay(1000);
 }
 
+void distance(){
+  digitalWrite(trig_pin, LOW);
+  delayMicroseconds(2);
+  digitalWrite(trig_pin, HIGH);
+  delayMicroseconds(10);
+  digitalWrite(trig_pin, LOW);
+
+  long duration = pulseIn(echo_pin, HIGH);
+  float distance = (duration * 0.0343) / 2;
+  if (debug){
+    Serial.print("Distance: ");
+    Serial.print(distance);
+    Serial.println(" cm");
+  }
+}
+
+void walkForwardFast() {
+  // ==========================================
+  // ⚙️ VARIABLES DE RÉGLAGE (LA SALLE DES MOTEURS)
+  // ==========================================
+  
+  // 1. LA VITESSE (En millisecondes)
+  // Temps de pause entre chaque mouvement. Plus c'est bas, plus c'est rapide.
+  // Attention : en dessous de 80ms, les moteurs n'auront physiquement pas le temps de bouger !
+  int tempo = 120; 
+
+  // 2. LA HAUTEUR (Levée des pieds)
+  // Juste assez pour décoller du sol. Plus c'est petit, plus le robot est stable.
+  int lift = 20; 
+
+  // 3. L'AMPLITUDE (Longueur du pas)
+  // La distance parcourue par la jambe.
+  int stride = 25; 
+
+  // 4. LE PARALLÉLISME (Correction de trajectoire)
+  // LE RÉGLAGE LE PLUS IMPORTANT ! Si ton robot dérive à gauche ou à droite,
+  // modifie cette valeur (ex: +5 ou -5) pour compenser et le forcer à aller droit.
+  int drift = 0; 
+
+
+  // TEMPS 1 : Basculer le poids (On lève le pied droit)
+  footLeft.write(90 - lift);
+  footRight.write(90 - lift);
+  RemoteXY_delay(tempo);
+
+  // TEMPS 2 : Ciseau (On avance la jambe droite, on recule la gauche)
+  // Note : Selon le sens de montage de tes moteurs, il faudra peut-être 
+  // inverser les '+' et les '-' devant 'stride' pour qu'il avance vraiment.
+  legRight.write(90 + stride + drift);
+  legLeft.write(90 + stride - drift);
+  RemoteXY_delay(tempo);
+
+  // TEMPS 3 : Basculer le poids de l'autre côté (On lève le pied gauche)
+  footLeft.write(90 + lift);
+  footRight.write(90 + lift);
+  RemoteXY_delay(tempo);
+
+  // TEMPS 4 : Ciseau inverse (On avance la jambe gauche, on recule la droite)
+  legLeft.write(90 - stride - drift);
+  legRight.write(90 - stride + drift);
+  RemoteXY_delay(tempo);
+}
+
+
 void setup() { // Fonction d'initialisation de la carte
   startupMusic();
   RemoteXY_Init();  // initialization by macros 
@@ -124,7 +188,10 @@ void setup() { // Fonction d'initialisation de la carte
 
 
 void loop() {
-  RemoteXYEngine.handler ();
+  RemoteXY_Handler();
+  distance(); // On mesure la distance avec le capteur à ultrasons
+  walkForwardFast(); // On lance la fonction de marche rapide
+
   digitalWrite(trig_pin, LOW);
   delayMicroseconds(2);
   digitalWrite(trig_pin, HIGH);
@@ -138,7 +205,4 @@ void loop() {
     Serial.print(distance);
     Serial.println(" cm");
   }
-
-
-  delay(1000);
 }
