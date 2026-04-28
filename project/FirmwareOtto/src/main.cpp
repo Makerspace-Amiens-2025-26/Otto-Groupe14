@@ -1,5 +1,17 @@
 #include <Arduino.h>
 #include <ESP32Servo.h>
+#include <BLEDevice.h>
+#include <RemoteXY.h>
+
+// you can enable debug logging to Serial at 115200
+//#define REMOTEXY__DEBUGLOG    
+
+// RemoteXY select connection mode and include library 
+#define REMOTEXY_MODE__ESP32CORE_BLE
+
+// RemoteXY connection settings 
+#define REMOTEXY_BLUETOOTH_NAME "Tigre RemoteLE"
+#define REMOTEXY_ACCESS_PASSWORD "lamano"
 
 // Définition des fréquences des notes de musiques de la 4ème octave
 #include "notes.h"
@@ -20,6 +32,24 @@ const int pinFootRight = D10;
 
 
 bool debug = false; // Variable pour activer/désactiver les messages de débogage
+
+// RemoteXY GUI configuration  
+#pragma pack(push, 1)  
+uint8_t const PROGMEM RemoteXY_CONF_PROGMEM[] =   // 33 bytes V19 
+  { 255,1,0,0,0,26,0,19,0,0,0,84,105,103,114,101,0,31,1,106,
+  200,1,1,1,0,4,44,125,14,36,32,2,26 };
+  
+// this structure defines all the variables and events of your control interface 
+struct {
+
+    // input variables
+  int8_t slider_servo_D7; // from -100 to 100
+
+    // other variable
+  uint8_t connect_flag;  // =1 if wire connected, else =0
+
+} RemoteXY;
+#pragma pack(pop)
 
 void startupMusic() { // Fonction pour jouer la musique de démarrage
   tone(BUZZER_PIN, OCTAVE_4_DO, DUREE_TEMPS);
@@ -66,6 +96,7 @@ void testServos() {
 
 void setup() { // Fonction d'initialisation de la carte
   startupMusic();
+  RemoteXY_Init();  // initialization by macros 
 
   Serial.begin(9600);  // Initialisation de la liaison série à 9600 bauds
   Serial.println("Démarrage de la communication série");
@@ -92,6 +123,7 @@ void setup() { // Fonction d'initialisation de la carte
 
 
 void loop() {
+  RemoteXYEngine.handler ();
   digitalWrite(trig_pin, LOW);
   delayMicroseconds(2);
   digitalWrite(trig_pin, HIGH);
