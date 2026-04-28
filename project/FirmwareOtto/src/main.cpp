@@ -1,7 +1,5 @@
 #include <Arduino.h>
 #include <ESP32Servo.h>
-#include <BLEDevice.h>
-#include <RemoteXY.h>
 
 // you can enable debug logging to Serial at 115200
 //#define REMOTEXY__DEBUGLOG    
@@ -12,6 +10,9 @@
 // RemoteXY connection settings 
 #define REMOTEXY_BLUETOOTH_NAME "Tigre RemoteLE"
 #define REMOTEXY_ACCESS_PASSWORD "lamano"
+
+#include <BLEDevice.h>
+#include <RemoteXY.h>
 
 // Définition des fréquences des notes de musiques de la 4ème octave
 #include "notes.h"
