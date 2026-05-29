@@ -119,48 +119,65 @@ void walkForwardFast() {
   // 1. LA VITESSE (En millisecondes)
   // Temps de pause entre chaque mouvement. Plus c'est bas, plus c'est rapide.
   // Attention : en dessous de 80ms, les moteurs n'auront physiquement pas le temps de bouger !
-  int tempo = 120; 
+  int tempo = 200; 
 
   // 2. LA HAUTEUR (Levée des pieds)
   // Juste assez pour décoller du sol. Plus c'est petit, plus le robot est stable.
-  int lift = 20; 
+  int lift = 15; 
 
   // 3. L'AMPLITUDE (Longueur du pas)
   // La distance parcourue par la jambe.
-  int stride = 25; 
+  int stride = 30; 
 
   // 4. LE PARALLÉLISME (Correction de trajectoire)
   // LE RÉGLAGE LE PLUS IMPORTANT ! Si ton robot dérive à gauche ou à droite,
   // modifie cette valeur (ex: +5 ou -5) pour compenser et le forcer à aller droit.
-  int drift = 0; 
+  int drift = 1; 
 
 
-  // TEMPS 1 : Basculer le poids (On lève le pied droit)
+ // TEMPS 1 : Bascule du poids (Le robot penche pour libérer une jambe)
   footLeft.write(90 - lift);
-  footRight.write(90 - lift);
+  footRight.write(88 - lift);
   RemoteXY_delay(tempo);
 
-  // TEMPS 2 : Ciseau (On avance la jambe droite, on recule la gauche)
-  // Note : Selon le sens de montage de tes moteurs, il faudra peut-être 
-  // inverser les '+' et les '-' devant 'stride' pour qu'il avance vraiment.
-  legRight.write(90 + stride + drift);
-  legLeft.write(90 + stride - drift);
-  RemoteXY_delay(tempo);
+  // TEMPS 2 : Amorce du pas (Moitié de l'effort)
+  legLeft.write(90 + (stride / 2) + drift); 
+  legRight.write(90 + (stride / 2) - drift); 
+  RemoteXY_delay(tempo / 2);
 
-  // TEMPS 3 : Basculer le poids de l'autre côté (On lève le pied gauche)
+  // TEMPS 3 : Extension complète (Poussée maximale)
+  legLeft.write(90 + stride + drift); 
+  legRight.write(90 + stride - drift); 
+  RemoteXY_delay(tempo / 2);
+
+  // TEMPS 4 : Stabilisation au sol (On pose les deux pieds à plat)
+  footLeft.write(90);
+  footRight.write(88);
+  RemoteXY_delay(tempo / 2);
+
+  // TEMPS 5 : Bascule du poids de l'autre côté
   footLeft.write(90 + lift);
-  footRight.write(90 + lift);
+  footRight.write(88 + lift);
   RemoteXY_delay(tempo);
 
-  // TEMPS 4 : Ciseau inverse (On avance la jambe gauche, on recule la droite)
+  // TEMPS 6 : Amorce du pas inverse (Moitié de l'effort)
+  legLeft.write(90 - (stride / 2) - drift);
+  legRight.write(90 - (stride / 2) + drift);
+  RemoteXY_delay(tempo / 2);
+
+  // TEMPS 7 : Extension complète inverse (Poussée maximale)
   legLeft.write(90 - stride - drift);
   legRight.write(90 - stride + drift);
-  RemoteXY_delay(tempo);
+  RemoteXY_delay(tempo / 2);
+
+  // TEMPS 8 : Stabilisation finale (Avant de recommencer le cycle)
+  footLeft.write(90);
+  footRight.write(88);
+  RemoteXY_delay(tempo / 2);
 }
 
-
 void setup() { // Fonction d'initialisation de la carte
-  startupMusic();
+ // startupMusic();
   RemoteXY_Init();  // initialization by macros 
 
   Serial.begin(9600);  // Initialisation de la liaison série à 9600 bauds
@@ -175,7 +192,7 @@ void setup() { // Fonction d'initialisation de la carte
   footLeft.attach(pinFootLeft);
   footRight.attach(pinFootRight);
 
-  testServos(); //On teste les moteurs en les faisant bouger de 0 à 180°
+ // testServos(); //On teste les moteurs en les faisant bouger de 0 à 180°
 
   //On met tous les moteurs à 90°
   legLeft.write(90);
@@ -184,18 +201,13 @@ void setup() { // Fonction d'initialisation de la carte
   footRight.write(90);
   
   Serial.println("Calibrage des moteurs terminé");
+  RemoteXY_delay(2000); // Pause de 2 secondes avant de commencer la boucle principale
 }
 
 
 void loop() {
   RemoteXY_Handler();
-  distance(); // On mesure la distance avec le capteur à ultrasons
-  walkForwardFast(); // On lance la fonction de marche rapide
-
-  digitalWrite(trig_pin, LOW);
-  delayMicroseconds(2);
-  digitalWrite(trig_pin, HIGH);
-  delayMicroseconds(10);
-  digitalWrite(trig_pin, LOW);
+  //distance(); // On mesure la distance avec le capteur à ultrasons
+  walkForwardFast(); // On lance la fonction de course
 
 }
