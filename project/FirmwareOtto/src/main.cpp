@@ -7,11 +7,13 @@
 // RemoteXY select connection mode and include library 
 #define REMOTEXY_MODE__ESP32CORE_BLE
 
-// RemoteXY connection settings 
-#define REMOTEXY_BLUETOOTH_NAME "Tigre RemoteLE"
-#define REMOTEXY_ACCESS_PASSWORD "lamano"
-
 #include <BLEDevice.h>
+
+// RemoteXY connection settings 
+#define REMOTEXY_BLUETOOTH_NAME "TigrOtto"
+#define REMOTEXY_ACCESS_PASSWORD "tigre"
+
+
 #include <RemoteXY.h>
 
 // Définition des fréquences des notes de musiques de la 4ème octave
@@ -23,6 +25,7 @@ Servo legLeft;
 Servo legRight;
 Servo footLeft;
 Servo footRight;
+Servo pusher;
 
 const int trig_pin = D2;
 const int echo_pin = D1;
@@ -30,26 +33,32 @@ const int pinLegLeft = D7;
 const int pinLegRight = D8;
 const int pinFootLeft = D9;
 const int pinFootRight = D10;
+const int pinPusher = D3;
 
 
 bool debug = false; // Variable pour activer/désactiver les messages de débogage
 
 // RemoteXY GUI configuration  
 #pragma pack(push, 1)  
-uint8_t const PROGMEM RemoteXY_CONF_PROGMEM[] =   // 33 bytes V19 
-  { 255,1,0,0,0,26,0,19,0,0,0,84,105,103,114,101,0,31,1,106,
-  200,1,1,1,0,4,44,125,14,36,32,2,26 };
+uint8_t const PROGMEM RemoteXY_CONF_PROGMEM[] =   // 63 bytes V19 
+  { 255,4,0,0,0,56,0,19,0,0,0,84,105,103,114,79,116,116,111,0,
+  79,1,106,200,1,1,3,0,2,37,167,32,18,0,2,26,31,31,79,78,
+  0,79,70,70,0,5,42,70,60,60,32,2,26,31,1,7,87,24,24,0,
+  2,31,0 };
   
 // this structure defines all the variables and events of your control interface 
 struct {
 
     // input variables
-  int8_t slider_servo_D7; // from -100 to 100
+  uint8_t switch_01; // =1 if switch ON and =0 if OFF, from 0 to 1
+  int8_t joystick_01_x; // from -100 to 100
+  int8_t joystick_01_y; // from -100 to 100
+  uint8_t button_01; // =1 if button pressed, else =0, from 0 to 1
 
     // other variable
   uint8_t connect_flag;  // =1 if wire connected, else =0
 
-} RemoteXY;
+} RemoteXY;   
 #pragma pack(pop)
 
 void startupMusic() { // Fonction pour jouer la musique de démarrage
@@ -85,6 +94,7 @@ void testServos() {
   legRight.write(0);
   footLeft.write(0);
   footRight.write(0);
+  pusher.write(0);
   delay(1000); 
 
   Serial.println("Position : 180°");
@@ -92,6 +102,7 @@ void testServos() {
   legRight.write(180);
   footLeft.write(180);
   footRight.write(180);
+  pusher.write(180);
   delay(1000);
 }
 
@@ -111,69 +122,110 @@ void distance(){
   }
 }
 
-void walkForwardFast() {
-  // ==========================================
-  // ⚙️ VARIABLES DE RÉGLAGE (LA SALLE DES MOTEURS)
-  // ==========================================
+// ==========================================
+// VARIABLES POUR LA MARCHE (Offsets physiques)
+// ==========================================
+int centreFootLeft = 90;  // Modifie ces valeurs si le robot
+int centreFootRight = 90; // penche ou vrille au repos.
+int centreLegLeft = 90;   
+int centreLegRight = 90;  
+float vitesseCycle = 900.0;
+float vitesseRapide = 450.0;
+int stride = 30;             
+int liftGauche = 30;         
+int liftDroite = 30;
+int drift = 0;
+
+void stopRobot() {
+  // Remet les 4 moteurs dans leur position de repos (tes variables de centrage)
+  footLeft.write(centreFootLeft);
+  footRight.write(centreFootRight);
+  legLeft.write(centreLegLeft);
+  legRight.write(centreLegRight);
+}
+
+void marcheAvant() {
+  unsigned long tempsActuel = millis();
+  float phase = (2.0 * PI * tempsActuel) / vitesseCycle;
   
-  // 1. LA VITESSE (En millisecondes)
-  // Temps de pause entre chaque mouvement. Plus c'est bas, plus c'est rapide.
-  // Attention : en dessous de 80ms, les moteurs n'auront physiquement pas le temps de bouger !
-  int tempo = 200; 
+  float ondePied = sin(phase);
+  float ondeJambe = cos(phase);
 
-  // 2. LA HAUTEUR (Levée des pieds)
-  // Juste assez pour décoller du sol. Plus c'est petit, plus le robot est stable.
-  int lift = 15; 
+  // Bascule du poids
+  footLeft.write(centreFootLeft - (liftGauche * ondePied));
+  footRight.write(centreFootRight - (liftDroite * ondePied));
+  
+  // Les deux jambes poussent vers l'arrière pour avancer (Signe -)
+  legLeft.write(centreLegLeft - (stride * ondeJambe) + drift);
+  legRight.write(centreLegRight - (stride * ondeJambe) - drift);
+}
 
-  // 3. L'AMPLITUDE (Longueur du pas)
-  // La distance parcourue par la jambe.
-  int stride = 30; 
+void marcheArriere() {
+  unsigned long tempsActuel = millis();
+  float phase = (2.0 * PI * tempsActuel) / vitesseCycle;
+  
+  float ondePied = sin(phase);
+  float ondeJambe = cos(phase);
 
-  // 4. LE PARALLÉLISME (Correction de trajectoire)
-  // LE RÉGLAGE LE PLUS IMPORTANT ! Si ton robot dérive à gauche ou à droite,
-  // modifie cette valeur (ex: +5 ou -5) pour compenser et le forcer à aller droit.
-  int drift = 1; 
+  // Bascule du poids (inchangée)
+  footLeft.write(centreFootLeft - (liftGauche * ondePied));
+  footRight.write(centreFootRight - (liftDroite * ondePied));
+  
+  // Les deux jambes poussent vers l'avant pour reculer (Signe +)
+  legLeft.write(centreLegLeft + (stride * ondeJambe) + drift);
+  legRight.write(centreLegRight + (stride * ondeJambe) - drift);
+}
 
+void tournerDroite() {
+  unsigned long tempsActuel = millis();
+  float phase = (2.0 * PI * tempsActuel) / vitesseCycle;
+  
+  float ondePied = sin(phase);
+  float ondeJambe = cos(phase);
 
- // TEMPS 1 : Bascule du poids (Le robot penche pour libérer une jambe)
-  footLeft.write(90 - lift);
-  footRight.write(88 - lift);
-  RemoteXY_delay(tempo);
+  // Bascule du poids
+  footLeft.write(centreFootLeft - (liftGauche * ondePied));
+  footRight.write(centreFootRight - (liftDroite * ondePied));
+  
+  // Jambe gauche avance (-), Jambe droite recule (+)
+  legLeft.write(centreLegLeft - (stride * ondeJambe));
+  legRight.write(centreLegRight + (stride * ondeJambe));
+}
 
-  // TEMPS 2 : Amorce du pas (Moitié de l'effort)
-  legLeft.write(90 + (stride / 2) + drift); 
-  legRight.write(90 + (stride / 2) - drift); 
-  RemoteXY_delay(tempo / 2);
+void tournerGauche() {
+  unsigned long tempsActuel = millis();
+  float phase = (2.0 * PI * tempsActuel) / vitesseCycle;
+  
+  float ondePied = sin(phase);
+  float ondeJambe = cos(phase);
 
-  // TEMPS 3 : Extension complète (Poussée maximale)
-  legLeft.write(90 + stride + drift); 
-  legRight.write(90 + stride - drift); 
-  RemoteXY_delay(tempo / 2);
+  // Bascule du poids
+  footLeft.write(centreFootLeft - (liftGauche * ondePied));
+  footRight.write(centreFootRight - (liftDroite * ondePied));
+  
+  // Jambe gauche recule (+), Jambe droite avance (-)
+  legLeft.write(centreLegLeft + (stride * ondeJambe));
+  legRight.write(centreLegRight - (stride * ondeJambe));
+}
 
-  // TEMPS 4 : Stabilisation au sol (On pose les deux pieds à plat)
-  footLeft.write(90);
-  footRight.write(88);
-  RemoteXY_delay(tempo / 2);
+void marcheRapide() {
+ // 1. Chronomètre et phase
+  unsigned long tempsActuel = millis();
+  float phase = (2.0 * PI * tempsActuel) / vitesseCycle;
+  
+  // 2. Calcul des ondes (-1.0 à 1.0)
+  float ondePied = sin(phase);
+  float ondeJambe = cos(phase);
 
-  // TEMPS 5 : Bascule du poids de l'autre côté
-  footLeft.write(90 + lift);
-  footRight.write(88 + lift);
-  RemoteXY_delay(tempo);
-
-  // TEMPS 6 : Amorce du pas inverse (Moitié de l'effort)
-  legLeft.write(90 - (stride / 2) - drift);
-  legRight.write(90 - (stride / 2) + drift);
-  RemoteXY_delay(tempo / 2);
-
-  // TEMPS 7 : Extension complète inverse (Poussée maximale)
-  legLeft.write(90 - stride - drift);
-  legRight.write(90 - stride + drift);
-  RemoteXY_delay(tempo / 2);
-
-  // TEMPS 8 : Stabilisation finale (Avant de recommencer le cycle)
-  footLeft.write(90);
-  footRight.write(88);
-  RemoteXY_delay(tempo / 2);
+  // 3. Application aux moteurs avec les Centres Personnalisés
+  
+  // Les pieds basculent autour de leur propre point zéro
+  footLeft.write(centreFootLeft - (liftGauche * ondePied));
+  footRight.write(centreFootRight - (liftDroite * ondePied));
+  
+  // Les jambes s'écartent autour de leur propre point zéro
+  legLeft.write(centreLegLeft - (stride * ondeJambe) + drift);
+  legRight.write(centreLegRight - (stride * ondeJambe) - drift);
 }
 
 void setup() { // Fonction d'initialisation de la carte
@@ -191,6 +243,7 @@ void setup() { // Fonction d'initialisation de la carte
   legRight.attach(pinLegRight);
   footLeft.attach(pinFootLeft);
   footRight.attach(pinFootRight);
+  pusher.attach(pinPusher);
 
  // testServos(); //On teste les moteurs en les faisant bouger de 0 à 180°
 
@@ -199,6 +252,7 @@ void setup() { // Fonction d'initialisation de la carte
   legRight.write(90);
   footLeft.write(90);
   footRight.write(90);
+  pusher.write(90);
   
   Serial.println("Calibrage des moteurs terminé");
   RemoteXY_delay(2000); // Pause de 2 secondes avant de commencer la boucle principale
@@ -208,6 +262,50 @@ void setup() { // Fonction d'initialisation de la carte
 void loop() {
   RemoteXY_Handler();
   //distance(); // On mesure la distance avec le capteur à ultrasons
-  walkForwardFast(); // On lance la fonction de course
+  if (RemoteXY.switch_01 == 1) {
+    // Le robot avance de manière autonome et fluide
+    marcheRapide();
+    
+    
+  }else {
+    // ==========================================
+    // MODE CONTRÔLE MANUEL
+    // ==========================================
+    
+    // --- A. GESTION DE LA BALAYETTE (Le Bouton 01) ---
+    if (RemoteXY.button_01 == 1) {
+      pusher.write(180); // Frappe ! (Ajuste l'angle selon ton montage physique)
+    } else {
+      pusher.write(90);  // Repos (Bras levé ou caché)
+    }
 
+    // --- B. GESTION DU DÉPLACEMENT (Le Joystick) ---
+    int axeX = RemoteXY.joystick_01_x;
+    int axeY = RemoteXY.joystick_01_y;
+    int seuil = 50; // Zone morte pour ignorer les tremblements du pouce
+
+    // Marche Avant
+    if (axeY > seuil && abs(axeX) < seuil) {
+      marcheAvant();
+    }
+    // Marche Arrière
+    else if (axeY < -seuil && abs(axeX) < seuil) {
+      // (Il te faudra créer cette fonction en inversant les phases des jambes)
+      marcheArriere(); 
+    } 
+    // Pivot Droite
+    else if (axeX > seuil && abs(axeY) < seuil) {
+      // (Il te faudra créer une fonction turnRight)
+      tournerDroite(); 
+    } 
+    // Pivot Gauche
+    else if (axeX < -seuil && abs(axeY) < seuil) {
+      // (Il te faudra créer une fonction turnLeft)
+      tournerGauche(); 
+    } 
+    // Arrêt (Le joystick est au centre ou le pouce a glissé)
+    else {
+      stopRobot(); 
+    }
+  }
 }
