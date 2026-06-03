@@ -176,7 +176,7 @@ void marcheArriere() {
   legRight.write(centreLegRight + (stride * ondeJambe) - drift);
 }
 
-void tournerDroite() {
+void tournerGauche() {
   unsigned long tempsActuel = millis();
   float phase = (2.0 * PI * tempsActuel) / vitesseCycle;
   
@@ -192,7 +192,7 @@ void tournerDroite() {
   legRight.write(centreLegRight + (stride * ondeJambe));
 }
 
-void tournerGauche() {
+void tournerDroite() {
   unsigned long tempsActuel = millis();
   float phase = (2.0 * PI * tempsActuel) / vitesseCycle;
   
@@ -262,7 +262,7 @@ void setup() { // Fonction d'initialisation de la carte
 void loop() {
   RemoteXY_Handler();
   //distance(); // On mesure la distance avec le capteur à ultrasons
-  if (RemoteXY.switch_01 == 1) {
+  if (RemoteXY.switch_01 == 0) {
     // Le robot avance de manière autonome et fluide
     marcheRapide();
     
