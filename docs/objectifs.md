@@ -42,3 +42,8 @@ Pour gagner les épreuves, le règlement nous a imposé des règles strictes qui
 **3. Le défi du Pilotage (Règle du Sumo)**
 * **La règle :** Piloter le robot en direct via le téléphone pour pousser l'adversaire.
 * **Le défi identifié :** En condition de combat, si le joystick de l'application est trop sensible, le robot risque de tourner au lieu d'avancer tout droit, ce qui serait fatal. De plus, un faux départ accidentel avant le coup de sifflet est pénalisé. Nous devons donc concevoir une télécommande avec des sécurités pour empêcher les erreurs humaines.
+
+**4. Le défi de l'Agilité (Règle de la Course d'obstacles)**
+* **La règle :** Traverser un parcours semé d'obstacles sans les faire tomber.
+* **Le défi identifié :** Contrairement à la Chrono Race où l'on fonce tout droit, cette épreuve demande de faire des virages très serrés et de s'arrêter net.
+* **L'objectif d'agilité :** Nous devons créer des mouvements de rotation sur place précis (le robot doit pouvoir lever un pied pendant que l'autre pivote le corps), tout en gardant une excellente réactivité pour slalomer de manière fluide.
