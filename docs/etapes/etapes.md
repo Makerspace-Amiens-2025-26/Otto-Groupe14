@@ -5,23 +5,21 @@ nav_order: 6
 has_children: true
 ---
 
-# Étapes de Fabrication
-
-Bienvenue dans la section dédiée aux étapes de fabrication du projet XYZ. Ici, vous trouverez des guides détaillés pour chaque étape du processus de fabrication.
+Bienvenue dans la section dédiée aux étapes de fabrication de notre robot **Otto-MKS (Groupe 14)**. Ici, vous trouverez nos guides détaillés pour passer de simples composants en vrac et de fichiers virtuels à un véritable robot de compétition prêt pour la piste.
 
 ## Aperçu des Étapes
 
-Le processus de fabrication est divisé en plusieurs étapes clés :
+Le processus de fabrication complet est divisé en 5 étapes clés, mêlant mécanique, électronique et logiciel :
 
-1. [Préparation des Matériaux](etape_1)
+1. [Préparation et Impression 3D](etape_1)
 2. [Assemblage](etape_2)
-3. [Finition]()
-4. [Contrôle Qualité]()
+3. [Programmation](etape_3)
+4. [Contrôle et Test](etape_4)
 
 ## Commencer
 
-Pour commencer, assurez-vous de bien comprendre chaque étape et de disposer de tous les outils et matériaux nécessaires. Suivez les étapes dans l'ordre pour garantir la qualité et l'efficacité du processus de fabrication.
+Pour bien débuter, assurez-vous de disposer d'un espace de travail dégagé et de réunir tous les outils et matériaux listés dans la première étape. Suivez scrupuleusement l'ordre de notre guide : en robotique, la rigueur de l'assemblage et du calibrage est indispensable pour garantir les performances et la fluidité de la machine.
 
 ---
 
-Pour toute question ou aide supplémentaire, n'hésitez pas à contacter notre équipe.
+Prêt à construire TigrOtto ? Cliquez sur **[Préparation et Impression 3D](etape_1)** pour commencer !

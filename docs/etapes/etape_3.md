@@ -34,7 +34,7 @@ Cela permet de basculer le poids (`ondePied`) et d'avancer les jambes (`ondeJamb
   legRight.write(centreLegRight - (stride * ondeJambe) - drift);
 ```
 
-### C. La Zone Morte du Joystick (Anti-stress)
+### C. La Zone Morte du Joystick
 Pour l'épreuve de Sumo, le pilotage doit être infaillible. Le code lit la position du joystick de -100 à 100, mais nous avons ajouté un `seuil` de tolérance à 50. 
 ```cpp
     int axeX = RemoteXY.joystick_01_x;
