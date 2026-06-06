@@ -7,8 +7,8 @@ aux_links:
   "By Nathan BARONICK & Romain MAGNIER": "#"
 
 # Thème
-# remote_theme: Makerspace-Amiens/CraftTheDocs-V1.0
-theme: just-the-docs
+remote_theme: Makerspace-Amiens/CraftTheDocs-V1.0
+# theme: just-the-docs
 url: https://github.com/Makerspace-Amiens
 
 # Paramètres optionnels de "Just the Docs"
