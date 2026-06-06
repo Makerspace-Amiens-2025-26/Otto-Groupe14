@@ -3,6 +3,9 @@ description: Documentation du projet TigrOtto par le groupe des Tigres. By Natha
 
 # NE RIEN MODIFIER CI-DESSOUS SI VOUS N'ETES PAS CERTAINS DE CE QUE VOUS FAITES
 
+aux_links:
+  "By Nathan BARONICK & Romain MAGNIER": "#"
+
 # Thème
 # remote_theme: Makerspace-Amiens/CraftTheDocs-V1.0
 theme: just-the-docs
@@ -13,3 +16,4 @@ just_the_docs:
   navigation_depth: 5
   search_enabled: true
   search_indexing: true
+
