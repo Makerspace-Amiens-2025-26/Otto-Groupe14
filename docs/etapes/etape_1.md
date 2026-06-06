@@ -44,7 +44,7 @@ Pour passer du virtuel au réel, nous avons utilisé les équipements de notre M
 
 Plutôt que d'utiliser les fichiers standards, nous vous mettons à disposition notre espace de travail Onshape. Il contient toutes nos améliorations mécaniques, prêtes à être exportées (en format `.stl` ou `.step`) pour l'impression.
 
-👉 **[Accéder à notre projet Onshape (Otto Groupe 14)](https://cad.onshape.com/documents/4bcfa44804b55b924cbb133d/w/5e7bed91d1405d67cb91704f/e/3df3aac1875ac242bb4538be)**{: .btn .btn-primary .fs-5 .mb-4 .mb-md-0 .mr-2}
+👉 [Accéder à notre projet Onshape (Otto Groupe 14)](https://cad.onshape.com/documents/4bcfa44804b55b924cbb133d/w/5e7bed91d1405d67cb91704f/e/3df3aac1875ac242bb4538be){: .btn .btn-primary .fs-5 .mb-4 .mb-md-0 .mr-2}
 
 **Liste des pièces à imprimer depuis notre lien :**
 1. **1x Corps (Body) :** Modifié avec une encoche sur mesure (tolérance de 0.2 mm) pour encastrer le 5ème moteur.

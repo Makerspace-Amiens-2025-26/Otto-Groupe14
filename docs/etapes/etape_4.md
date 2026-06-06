@@ -39,7 +39,7 @@ Toujours en gardant le robot dans les mains, nous allons vérifier que nos sécu
 
 ---
 
-## Phase 3 : Tests sur piste (Locomotion et Adhérence)
+## Phase 3 : Tests sur piste (Mouvements et Adhérence)
 
 Il est temps de poser le robot sur la piste pour évaluer ses performances dynamiques et ajuster ses derniers réglages matériels.
 
