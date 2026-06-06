@@ -9,8 +9,8 @@ permalink: /
 
 Bienvenue dans la documentation officielle de notre robot bipède Otto-MKS. Ce site a pour but de fournir toutes les informations nécessaires pour comprendre notre démarche d'ingénierie, de la conception CAO à l'optimisation cinématique, et pour vous permettre de reproduire efficacement notre projet.
 
-[Notre projet sur Onshape](https://cad.onshape.com/documents/2860ed3d58f1b518e6857770/w/82b3c0e474623135ccb76fa3/e/0cab16137cd459ee83ebe56e?renderMode=0&uiState=6936dc0e23fecc27d34268b2){: .btn .btn-primary .fs-5 .mb-4 .mb-md-0 .mr-2 }
-[Notre repo GitHub](https://makerspace-amiens-2025-26.github.io/Otto-Groupe14/){: .btn .fs-5 .mb-4 .mb-md-0 }
+[Notre projet sur Onshape](https://cad.onshape.com/documents/4bcfa44804b55b924cbb133d/w/5e7bed91d1405d67cb91704f/e/3df3aac1875ac242bb4538be?renderMode=0&uiState=6a240cf3c7df59a765dc080c){: .btn .btn-primary .fs-5 .mb-4 .mb-md-0 .mr-2 }
+[Notre repo GitHub](https://github.com/Makerspace-Amiens-2025-26/Otto-Groupe14){: .btn .fs-5 .mb-4 .mb-md-0 }
 
 <iframe height="600" width="100%" src="https://modelembedder.net/embed?did=2860ed3d58f1b518e6857770&wvm=v&wvmid=6280fca954e7770df59e5a2f&eid=0cab16137cd459ee83ebe56e&elementType=ASSEMBLY" frameborder="0"></iframe>
 
