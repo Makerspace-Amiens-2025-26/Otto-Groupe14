@@ -129,12 +129,12 @@ int centreFootLeft = 90;  // Modifie ces valeurs si le robot
 int centreFootRight = 90; // penche ou vrille au repos.
 int centreLegLeft = 90;   
 int centreLegRight = 90;  
-float vitesseCycle = 900.0;
-float vitesseRapide = 450.0;
-int stride = 30;             
-int liftGauche = 30;         
-int liftDroite = 30;
-int drift = 0;
+float vitesseCycle = 500.0;
+float vitesseRapide = 500.0;
+int stride = 25;             
+int liftGauche = 20;         
+int liftDroite = 20;
+int drift = 15;
 
 void stopRobot() {
   // Remet les 4 moteurs dans leur position de repos (tes variables de centrage)
@@ -146,7 +146,7 @@ void stopRobot() {
 
 void marcheAvant() {
   unsigned long tempsActuel = millis();
-  float phase = (2.0 * PI * tempsActuel) / vitesseCycle;
+  float phase = (2.0 * PI * tempsActuel) / vitesseRapide;
   
   float ondePied = sin(phase);
   float ondeJambe = cos(phase);
@@ -211,7 +211,7 @@ void tournerDroite() {
 void marcheRapide() {
  // 1. Chronomètre et phase
   unsigned long tempsActuel = millis();
-  float phase = (2.0 * PI * tempsActuel) / vitesseCycle;
+  float phase = (2.0 * PI * tempsActuel) / vitesseRapide;
   
   // 2. Calcul des ondes (-1.0 à 1.0)
   float ondePied = sin(phase);
