@@ -10,7 +10,7 @@ Le projet **Otto-MKS** consiste à concevoir, programmer et assembler un petit r
 
 ## Contexte du Projet
 
-Ce projet est réalisé dans le cadre de nos études au Makerspace d'UniLaSalle Amiens. La particularité de notre démarche est que nous avons dû partir d'une feuille blanche, notamment pour la programmation. L'idée n'était pas de télécharger un projet tout fait sur internet, mais de comprendre comment fonctionne réellement la marche d'un robot, de concevoir nos propres améliorations en 3D sur Onshape, et d'écrire notre propre application de pilotage. Le but final est de s'imposer face aux autres groupes lors de deux épreuves spécifiques : une course de vitesse (Chrono Race) et un combat (Sumo).
+Ce projet est réalisé dans le cadre de nos études au Makerspace d'UniLaSalle Amiens. La particularité de notre démarche est que nous avons dû partir d'une feuille blanche, notamment pour la programmation. L'idée n'était pas de télécharger un projet tout fait sur internet, mais de comprendre comment fonctionne réellement la marche d'un robot, de concevoir nos propres améliorations en 3D sur Onshape, et d'écrire notre propre application de pilotage. Le but final est de s'imposer face aux autres groupes lors de trois épreuves spécifiques : une course de vitesse (Chrono Race), une course d'obstacles (Slalom) et un combat (Sumo).
 
 ## Objectifs du Projet
 
