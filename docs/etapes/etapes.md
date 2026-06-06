@@ -1,6 +1,6 @@
 ---
 layout: default
-title: Etapes de fabrication
+title: Fabriquer Notre Robot !
 nav_order: 6
 has_children: true
 ---

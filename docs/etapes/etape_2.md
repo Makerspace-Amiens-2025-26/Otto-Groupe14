@@ -1,7 +1,7 @@
 ---
 layout: default
-title: Assemblage
-parent: Etapes de fabrication
+title: Etape 2 - Assemblage
+parent: Fabriquer Notre Robot !
 nav_order: 2
 ---
 
@@ -9,21 +9,11 @@ nav_order: 2
 
 Cette page détaille le montage physique de notre robot, avec notamment l'ajout du 5ème servomoteur pour l'arme et l'optimisation de l'adhérence.
 
-## 🛠️ Liste du matériel nécessaire
-
-Avant de commencer, assurez-vous d'avoir tous ces éléments sur votre plan de travail :
-
-| Catégorie | Éléments |
-| :--- | :--- |
-| **Électronique** | 1x ESP32, 4x (ou 5x) Servomoteurs SG90, 1x Capteur HC-SR04, 1x Buzzer, 1x Batterie 9V + Cosse. |
-| **Pièces 3D** | 1x Corps, 1x Tête, 2x Jambes, 2x Pieds, 1x Balayette (optionnelle). |
-| **Visserie** | Sachets de palonniers et de vis fournis avec les moteurs (vis à bout plat et vis pointues), tournevis de précision. |
-| **Autres** | Super-glue, bandes de Rubber Gum (caoutchouc)|
-
+Avant de commencer, assurez-vous d'avoir tout le matériel vu à l'étape précédente sur votre plan de travail.
 ---
 
 ## Étape 1 : Corps
-1. Insérez les deux servomoteurs de hanches dans la pièce `Body` (axes vers l'extérieur).
+1. Insérez les deux servomoteurs de hanches dans la pièce `Body`.
 2. **Option Arme :** Insérez le 5ème servomoteur dans l'encoche sur mesure située sur le côté du châssis. L'emplacement est conçu pour un encastrement "en force" (0.2mm de tolérance).
 3. Fixez les moteurs à l'aide des vis à **bout pointus**.
 
