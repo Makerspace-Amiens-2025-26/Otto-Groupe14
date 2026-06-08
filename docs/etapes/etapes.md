@@ -7,6 +7,8 @@ has_children: true
 
 Bienvenue dans la section dédiée aux étapes de fabrication de notre robot **Otto-MKS (Groupe 14)**. Ici, vous trouverez nos guides détaillés pour passer de simples composants en vrac et de fichiers virtuels à un véritable robot de compétition prêt pour la piste.
 
+![Robot TigrOtto de face](assets/images/profil.jpeg)
+
 ## Aperçu des Étapes
 
 Le processus de fabrication complet est divisé en 5 étapes clés, mêlant mécanique, électronique et logiciel :
