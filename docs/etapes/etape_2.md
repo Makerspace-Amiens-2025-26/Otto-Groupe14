@@ -29,7 +29,7 @@ Avant de commencer, assurez-vous d'avoir tout le matériel vu à l'étape préc�
 4. Vissez les moteurs dans les jambe avec les vis à **bouts pointus**
 3. Découpez et collez à la super-glue des bandes de **Rubber Gum** uniquement au centre de la semelle. Laissez les bords lisses pour permettre au robot de marcher correctement.
 
-![Vue de dessous des semelles avec le rubber gum centré](assets/images/pieds.jpg)
+![Vue de dessous des semelles avec le rubber gum centré](images/pieds.jpeg)
 
 ## Étape 4 : Tête et Câblage final
 1. Installez le capteur ultrasons (yeux) et le buzzer dans la tête.
@@ -39,6 +39,6 @@ Avant de commencer, assurez-vous d'avoir tout le matériel vu à l'étape préc�
    Pour savoir où branchez chaque servomoteur il faut regarder dans le code le pin associé à chacun.
 3. Clipsez la tête sur le corps.
 
-![Vue de dos du robot assemblé montrant les passages de câbles](assets/images/dos.jpg)
+![Vue de dos du robot assemblé montrant les passages de câbles](images/dos.jpeg)
 
 Votre robot est maintenant physiquement assemblé !
