@@ -7,7 +7,7 @@ has_children: true
 
 Bienvenue dans la section dédiée aux étapes de fabrication de notre robot **Otto-MKS (Groupe 14)**. Ici, vous trouverez nos guides détaillés pour passer de simples composants en vrac et de fichiers virtuels à un véritable robot de compétition prêt pour la piste.
 
-![Robot TigrOtto de face](images/profil.png)
+![Robot TigrOtto de face](/docs/images/profil.png)
 
 ## Aperçu des Étapes
 
