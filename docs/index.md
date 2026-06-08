@@ -28,12 +28,11 @@ Cette documentation est destinée aux makers, aux étudiants en ingénierie et a
 
 
 ## Poster
-Coming Soon...
-![Poster projet](images/poster.jpg)
+
+![Poster projet](images/poster.png)
 
 ## Vidéo
-Coming Soon...
 
-<video src="images/intro_amiens.mp4" controls title="Title"  style="width: 100%;"></video>
+<video src="images/tigrotto.mp4" controls title="Title"  style="width: 100%;"></video>
 
 ---

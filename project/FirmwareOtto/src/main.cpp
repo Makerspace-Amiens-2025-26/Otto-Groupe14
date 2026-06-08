@@ -130,7 +130,7 @@ int centreFootRight = 90; // penche ou vrille au repos.
 int centreLegLeft = 90;   
 int centreLegRight = 90;  
 float vitesseCycle = 500.0;
-float vitesseRapide = 500.0;
+float vitesseRapide = 1000.0;
 int stride = 25;             
 int liftGauche = 20;         
 int liftDroite = 20;
@@ -229,7 +229,7 @@ void marcheRapide() {
 }
 
 void setup() { // Fonction d'initialisation de la carte
- // startupMusic();
+  startupMusic();
   RemoteXY_Init();  // initialization by macros 
 
   Serial.begin(9600);  // Initialisation de la liaison série à 9600 bauds
@@ -264,8 +264,7 @@ void loop() {
   //distance(); // On mesure la distance avec le capteur à ultrasons
   if (RemoteXY.switch_01 == 0) {
     // Le robot avance de manière autonome et fluide
-    marcheRapide();
-    
+    RemoteXY_delay(1000); // Petite pause pour éviter de surcharger le processeur
     
   }else {
     // ==========================================
